@@ -2,7 +2,16 @@
   "name": "vue-cn",
   "version": "1.0.0",
   "description": "基于vue、vue-router、vuex、vue-resource重写vue社区的web app",
-  "author": "victor-vt <victor409097677@gmail.com>",
+  "keywords": ["vue.js", "web app", "vue-router", "vuex", "vue-resource"],
+  "author": "kamifun <kamifun409097677@gmail.com> (http://kamifun.com)",
+  "bugs": {
+    "url": "http://github.com/kamifun/vue-cn/issues",
+    "email": "kamifun@qq.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kamifun/vue-cn.git"
+  },
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
