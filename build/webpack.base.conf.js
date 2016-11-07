@@ -12,7 +12,8 @@ var useCssSourceMap = cssSourceMapDev || cssSourceMapProd
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './src/main.js',
+    flexible: './src/utils/flexible.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -60,6 +61,10 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json'
+      },
+      {
+        test: /\.less$/,
+        loader: 'style!css!less'
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
