@@ -17,6 +17,16 @@ module.exports = {
     // allow async-await
     'generator-star-spacing': 0,
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0
+    'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
+    // use `;` end of stament
+    "semi": [2, "always"],
+    // before function `(` not space
+    "space-before-function-paren": [0, "always"],
+    // disable same function arguments
+    "no-dupe-args": 2,
+    // disable spaces and tabs use together
+    "no-mixed-spaces-and-tabs": [2, false],
+    // disable before called function use space
+    "no-spaced-func": 2
   }
 }
