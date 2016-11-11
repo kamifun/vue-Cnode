@@ -1,7 +1,10 @@
-const increment = 'increment';
-const reduction = 'reduction';
-const startDrag = 'startDrag';
-const endDrag = 'endDrag';
+import {
+  SETPAGE,
+  INCREMENT,
+  REDUCTION,
+  STARTDRAG,
+  ENDDRAG
+} from 'store/types';
 
 export default {
   state: {
@@ -9,31 +12,20 @@ export default {
     dragging: false
   },
   mutations: {
-    [increment](state) {
+    [SETPAGE](state, page) {
+      state.page = page;
+    },
+    [INCREMENT](state) {
       state.page++;
     },
-    [reduction](state) {
+    [REDUCTION](state) {
       state.page--;
     },
-    [startDrag](state) {
+    [STARTDRAG](state) {
       state.dragging = true;
     },
-    [endDrag](state) {
+    [ENDDRAG](state) {
       state.dragging = false;
-    }
-  },
-  actions: {
-    [increment]({commit}) {
-      commit(increment);
-    },
-    [reduction]({commit}) {
-      commit(reduction);
-    },
-    [startDrag]({commit}) {
-      commit(startDrag);
-    },
-    [endDrag]({commit}) {
-      commit(endDrag);
     }
   }
 };
