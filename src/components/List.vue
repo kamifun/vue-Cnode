@@ -1,12 +1,12 @@
 <template>
   <li>
     <router-link :to="'/topics/' + item.id">
-      <h3 v-text="item.title" data-title="置顶" :class="titleType"></h3>
+      <h3 v-text="item.title" :data-title="getTag" :class="titleType"></h3>
       <div class="content">
-        <img :src="item.author.avatar_url" alt="item.author.loginname" />
+        <img :src="item.author && item.author.avatar_url" :alt="item.author && item.author.loginname" />
         <div class="info">
           <p>
-            <span class="name" v-text="item.author.loginname"></span>
+            <span class="name" v-text="item.author && item.author.loginname"></span>
             <span class="status">
               <b v-text="item.reply_count"></b> /{{ item.visit_count }}
             </span>
@@ -32,6 +32,8 @@ export default {
     }
   },
   computed: {
+    // get topic's type for title class
+    // 获取topic的类型，作为标题的class
     titleType() {
       if (this.item.top) {
         return 'top';
@@ -40,9 +42,27 @@ export default {
         return 'good';
       }
       return this.item.tab;
+    },
+    // get item tag
+    // 获取当前主题的标签
+    getTag() {
+      if (this.item.top) {
+        return '置顶';
+      }
+      if (this.item.good) {
+        return '精华';
+      }
+      let tags = {
+        share: '分享',
+        ask: '问答',
+        job: '招聘'
+      };
+      return tags[this.item.tab];
     }
   },
   filters: {
+    // Get elapsed time (maximum unit)
+    // 获取已经过去多久(只取最大单位)
     getLastTimeStr(time) {
       let agoDate = new Date(time);
       let nowDate = new Date();
@@ -73,7 +93,6 @@ export default {
         }
       ];
       for (var i = 0, len = array.length; i < len; i++) {
-        console.log(array[i]['time']);
         if (array[i]['time'] >= 1) {
           return array[i]['time'] + array[i]['s'];
         }
