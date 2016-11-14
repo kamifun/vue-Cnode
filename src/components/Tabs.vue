@@ -1,13 +1,13 @@
 <template>
   <div class="tab-container">
-    <ul class="tab-title-container">
-      <li class="tab-title" :class="{'active': index + 1 === page}" v-for="(title, index) in tabTitles" :key="index" @click="setPage(index + 1)" v-text="title"></li>
-    </ul>
     <div class="tab-swiper" @touchstart="onTouchSart">
       <div class="tab-swiper-wrap" :class="{'dragging': dragging}" ref="tab-swiper-wrap" :style="{'transform': 'translate3d(' + translateX + 'px,0,0)'}">
         <slot></slot>
       </div>
     </div>
+    <ul class="tab-title-container">
+      <li class="tab-title" :class="{'active': index + 1 === page}" v-for="(title, index) in tabTitles" :key="index" @click="setPage(index + 1)" v-text="title"></li>
+    </ul>
   </div>
 </template>
 
@@ -160,8 +160,12 @@ export default {
 <style lang="less">
   .tab-container {
     width: 100%;
+    height: 100%;
+    overflow: hidden;
     >.tab-title-container {
-      position: relative;
+      position: absolute;;
+      left: 0;
+      bottom: 0;
       display: flex;
       flex-wrap: nowrap;
       align-items: center;
@@ -169,6 +173,7 @@ export default {
       width: 100%;
       margin: 0 auto;
       border-bottom: 1px solid #ddd;
+      background: #fff;
       >.tab-title {
         flex: 1;
         position: relative;
@@ -186,6 +191,8 @@ export default {
 
     >.tab-swiper {
       position: relative;
+      padding-bottom: 35px;
+      height: 100%;
       overflow: hidden;
       >.tab-swiper-wrap {
         display: flex;

@@ -13,5 +13,8 @@ export default {
 </script>
 
 <style lang="less">
-@import "./styles/reset";
+  @import "./styles/reset";
+  #app {
+    height: 100%;
+  }
 </style>

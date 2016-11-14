@@ -132,4 +132,7 @@ export default {
 </script>
 
 <style lang="less">
+  .tab-content-container {
+    position: relative;
+  }
 </style>
