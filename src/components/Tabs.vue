@@ -69,13 +69,9 @@ export default {
     // edit translateX according to page
     // 根据page修改translateX
     changeTranslateX() {
-      try {
-        this.translateX = -[].reduce.call(this.slideEls, (total, el, i) => {
-          return i > this.page - 2 ? total : total + el['clientWidth'];
-        }, 0);
-      } catch (e) {
-        console.log(e);
-      }
+      this.translateX = -[].reduce.call(this.slideEls, (total, el, i) => {
+        return i > this.page - 2 ? total : total + el['clientWidth'];
+      }, 0);
     },
     // Record the current location on touchstart，also add touchmove and touchend event
     // 在touchstart时，记录开始位置、时间，并添加touchmove和touchend事件
@@ -106,6 +102,9 @@ export default {
           this.isScroll = true;
         }
       }
+
+      // Prevents the scroll behavior when it is dragging;
+      // 当我们在进行滑动切换时，阻止滚动行为
       if (this.dragging) {
         e.preventDefault();
         e.stopPropagation();
@@ -161,7 +160,6 @@ export default {
   .tab-container {
     width: 100%;
     height: 100%;
-    overflow: hidden;
     >.tab-title-container {
       position: absolute;;
       left: 0;
@@ -172,7 +170,7 @@ export default {
       justify-content: center;
       width: 100%;
       margin: 0 auto;
-      border-bottom: 1px solid #ddd;
+      border-top: 1px solid #ddd;
       background: #fff;
       >.tab-title {
         flex: 1;
@@ -183,7 +181,7 @@ export default {
         cursor: pointer;
         outline-style: none;
         &.active, &:active {
-          border-bottom: 2px solid #36acf4;
+          border-top: 2px solid #36acf4;
           color: #36acf4;
         }
       }

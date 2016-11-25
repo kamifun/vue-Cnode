@@ -1,5 +1,5 @@
 <template>
-  <li>
+  <li ref="itemList">
     <router-link :to="'/topics/' + item.id">
       <h3 v-text="item.title" :data-title="getTag" :class="titleType"></h3>
       <div class="content">
@@ -22,6 +22,9 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+import { SETHEIGHT } from 'store/types';
+
 export default {
   props: {
     item: {
@@ -58,7 +61,10 @@ export default {
         job: '招聘'
       };
       return tags[this.item.tab];
-    }
+    },
+    ...mapState({
+      height: state => state.list.height
+    })
   },
   filters: {
     // Get elapsed time (maximum unit)
@@ -99,6 +105,18 @@ export default {
       }
       return '0秒前';
     }
+  },
+  mounted() {
+    this.$nextTick(() => {
+      // when the height is 0, call setHeight
+      // 当height为0时，调用setHeight
+      !this.height && this.setHeight(this.$refs.itemList.offsetHeight);
+    });
+  },
+  methods: {
+    ...mapMutations({
+      setHeight: SETHEIGHT
+    })
   }
 };
 </script>
