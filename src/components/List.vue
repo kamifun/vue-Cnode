@@ -125,25 +125,28 @@ export default {
   li {
     border-bottom: 1px solid #d5dbdb;
     a {
-      padding: 10px 15px;
+      padding: .25rem .35rem;
       display: block;
+      &:active {
+        background-color: rgba(131, 180, 232, .4);;
+      }
     }
     h3 {
       color: #2c3e50;
-      font-size: 16px;
+      font-size: .45rem;
       line-height: 1.5;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
       &:before {
         content: attr(data-title);
-        margin-right: 10px;
-        margin-top: -3px;
+        margin-right: .3rem;
+        margin-top: -.2rem;
         color: #ffffff;
-        padding: 5px 6px;
-        font-size: 10px;
+        padding: .12rem .18rem;
+        font-size: .3rem;
         font-weight: 400;
-        border-radius: 4px;
+        border-radius: .12rem;
         background-color: #e7e7e7;
       }
       &.top:before {
@@ -163,22 +166,25 @@ export default {
       }
     }
     .content {
-      padding-top: 10px;
+      padding-top: .2rem;
       display: flex;
       >img {
         display: block;
-        width: 40px;
-        height: 40px;
+        width: 1.2rem;
+        height: 1.2rem;
         border-radius: 50%;
-        margin-right: 10px;
+        margin-right: .2rem;
         border: 1px solid #F3F3F3;
       }
       >.info {
         flex: 1;
       }
       p {
+        &:first-child {
+          font-size: .4rem;
+        }
         color: #34495e;
-        font-size: 12px;
+        font-size: .35rem;
         display: flex;
       }
       .name, time:first-child {

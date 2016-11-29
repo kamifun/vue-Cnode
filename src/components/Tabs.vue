@@ -175,8 +175,9 @@ export default {
       >.tab-title {
         flex: 1;
         position: relative;
-        height: 34px;
-        line-height: 34px;
+        height: 1.2rem;
+        line-height: 1.2rem;
+        font-size: .45rem;
         text-align: center;
         cursor: pointer;
         outline-style: none;
@@ -189,7 +190,7 @@ export default {
 
     >.tab-swiper {
       position: relative;
-      padding-bottom: 35px;
+      padding-bottom: .9rem;
       height: 100%;
       overflow: hidden;
       >.tab-swiper-wrap {
@@ -197,7 +198,7 @@ export default {
         flex-direction: row;
         width: 100%;
         height: 100%;
-        transition: all 0.2s ease;
+        transition: all .2s ease;
         &.dragging {
           transition: none;
         }

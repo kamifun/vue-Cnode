@@ -26,16 +26,16 @@ export default {
     position: absolute;
     left: 50%;
     top: 50%;
-    padding: 0.4rem;
-    margin-left: -1.25rem;
-    margin-top: -1.25rem;
+    padding: 0.2rem;
+    margin-left: -0.6rem;
+    margin-top: -0.6rem;
     background: rgba(0, 0, 0, 0.8);
     z-index: 11000;
-    border-radius: 0.25rem;
+    border-radius: 0.1rem;
     >.preloader {
       display: block;
-      width: 1.7rem;
-      height: 1.7rem;
+      width: 1rem;
+      height: 1rem;
       transform-origin: 50%;
       animation: preloader-spin 1s steps(12, end) infinite;
       &:after {
