@@ -5,6 +5,8 @@ var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
 var opn = require('opn')
+// added by kamifun
+var os = require('os')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = process.env.NODE_ENV === 'testing'
   ? require('./webpack.prod.conf')
@@ -64,7 +66,16 @@ module.exports = app.listen(port, function (err) {
     console.log(err)
     return
   }
-  var uri = 'http://localhost:' + port
+  // added by kamifun
+  var lacalhost = ''
+  try {
+    var network = os.networkInterfaces()
+    localhost = network[Object.keys(network)[0]][1].address
+  } catch (e) {
+    localhost = 'localhost';
+  }
+  var uri = 'http://' + localhost + ':' + port
+
   console.log('Listening at ' + uri + '\n')
   opn(uri)
 })
