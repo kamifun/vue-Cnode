@@ -113,7 +113,7 @@ export default {
         return;
       }
 
-      this.$http.get('/api/v1/topics', {
+      this.$http.get('api/v1/topics', {
         params: {
           tab: type,
           page: this[type].nextPage,

@@ -67,8 +67,11 @@ export default {
     // get detail info for topic
     // 获取topic详细信息
     getTopic() {
-      this.$http.get('/api/v1/topic/' + this.$route.params.id).then((response) => {
+      this.$http.get('api/v1/topic/' + this.$route.params.id).then((response) => {
         this.topic = response.data.data;
+        // Solve the path problem
+        // 解决路径问题
+        // this.topic.content = this.topic.content.replace(/<img\s?([^(src)|=]?="[^"]")*\s?src="(\/public\/upload[^"]*)"/g, '<img src="http://www.vue-js.com/$2" $1');
       }, (response) => {
         console.log(response);
       });

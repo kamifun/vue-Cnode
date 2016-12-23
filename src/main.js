@@ -11,6 +11,7 @@ import mixin from 'src/mixin';
 
 // use plugins
 Vue.use(VueResource);
+Vue.http.options.root = 'http://www.vue-js.com';
 
 // register filters
 Object.keys(filters).forEach((key) => {
