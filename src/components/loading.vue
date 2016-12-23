@@ -12,7 +12,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .preloader-indicator-overlay {
       width: 100%;
       height: 100%;
@@ -26,16 +26,16 @@ export default {
     position: absolute;
     left: 50%;
     top: 50%;
-    padding: 0.2rem;
-    margin-left: -0.6rem;
-    margin-top: -0.6rem;
+    padding: 0.15rem;
+    margin-left: -0.5rem;
+    margin-top: -0.5rem;
     background: rgba(0, 0, 0, 0.8);
     z-index: 11000;
     border-radius: 0.1rem;
     >.preloader {
       display: block;
-      width: 1rem;
-      height: 1rem;
+      width: .85rem;
+      height: .85rem;
       transform-origin: 50%;
       animation: preloader-spin 1s steps(12, end) infinite;
       &:after {
@@ -58,7 +58,7 @@ export default {
   @keyframes preloader-spin {
     100% {
       -webkit-transform: rotate(360deg);
-              transform: rotate(360deg);
+      transform: rotate(360deg);
     }
   }
 </style>
