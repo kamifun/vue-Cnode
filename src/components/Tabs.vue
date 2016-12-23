@@ -156,10 +156,11 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .tab-container {
     width: 100%;
     height: 100%;
+    position: relative;
     >.tab-title-container {
       position: absolute;;
       left: 0;
@@ -175,21 +176,30 @@ export default {
       >.tab-title {
         flex: 1;
         position: relative;
-        height: 1.2rem;
-        line-height: 1.2rem;
-        font-size: .45rem;
+        height: .9rem;
+        line-height: .9rem;
+        font-size: .4rem;
         text-align: center;
         cursor: pointer;
         outline-style: none;
         &.active, &:active {
-          border-top: 2px solid #36acf4;
           color: #36acf4;
+          &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: -1px;
+            width: 100%;
+            height: 2px;
+            background-color: #36acf4;
+          }
         }
       }
     }
 
     >.tab-swiper {
       position: relative;
+      padding-top: .8rem;
       padding-bottom: .9rem;
       height: 100%;
       overflow: hidden;
