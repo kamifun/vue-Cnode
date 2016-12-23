@@ -12,3 +12,7 @@ export const SETHEIGHT = 'list/setHeight';
 export const STARTAJAX = 'ajax/startAjax';
 export const ENDAJAX = 'ajax/endAjax';
 export const STOPAJAX = 'ajax/stopAjax';
+
+// user
+export const SETUSER = 'user/setUser';
+export const RESETUSER = 'user/resetUser';

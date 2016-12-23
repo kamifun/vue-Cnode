@@ -22,7 +22,8 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': 'http://www.vue-js.com/'
+      '/api': 'http://www.vue-js.com/',
+      '/public/upload': 'http://www.vue-js.com/'
     },
     favicon: path.resolve(__dirname, '../src/assets/favicon.ico'),
     // CSS Sourcemaps off by default because relative paths are "buggy"
