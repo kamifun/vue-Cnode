@@ -18,7 +18,8 @@
           recalc = function () {
             var clientWidth = docEl.clientWidth;
             if (!clientWidth) return;
-            docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            var fontSize = 100 * (clientWidth / 750)
+            docEl.style.fontSize = (fontSize > 60 ? 60 : fontSize) + 'px';
           };
         if (!doc.addEventListener) return;
         win.addEventListener(resizeEvt, recalc, false);
