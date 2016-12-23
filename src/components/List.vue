@@ -1,7 +1,7 @@
 <template>
   <li ref="itemList">
-    <router-link :to="'/topics/' + item.id">
-      <h3 v-text="item.title" :data-title="getTag" :class="titleType"></h3>
+    <router-link :to="'/topic/' + item.id">
+      <h3 v-text="item.title" :data-title="getTag(item.top, item.good, item.tab)" :class="titleType"></h3>
       <div class="content">
         <img :src="item.author && item.author.avatar_url" :alt="item.author && item.author.loginname" />
         <div class="info">
@@ -46,65 +46,9 @@ export default {
       }
       return this.item.tab;
     },
-    // get item tag
-    // 获取当前主题的标签
-    getTag() {
-      if (this.item.top) {
-        return '置顶';
-      }
-      if (this.item.good) {
-        return '精华';
-      }
-      let tags = {
-        share: '分享',
-        ask: '问答',
-        job: '招聘'
-      };
-      return tags[this.item.tab];
-    },
     ...mapState({
       height: state => state.list.height
     })
-  },
-  filters: {
-    // Get elapsed time (maximum unit)
-    // 获取已经过去多久(只取最大单位)
-    getLastTimeStr(time) {
-      let agoDate = new Date(time);
-      let nowDate = new Date();
-      let array = [
-        {
-          time: nowDate.getFullYear() - agoDate.getFullYear(),
-          s: '年前'
-        },
-        {
-          time: (nowDate.getMonth() + 1) - (agoDate.getMonth() + 1),
-          s: '月前'
-        },
-        {
-          time: nowDate.getDate() - agoDate.getDate(),
-          s: '天前'
-        },
-        {
-          time: nowDate.getHours() - agoDate.getHours(),
-          s: '小时前'
-        },
-        {
-          time: nowDate.getMinutes() - agoDate.getMinutes(),
-          s: '分钟前'
-        },
-        {
-          time: nowDate.getSeconds() - agoDate.getSeconds(),
-          s: '秒前'
-        }
-      ];
-      for (var i = 0, len = array.length; i < len; i++) {
-        if (array[i]['time'] >= 1) {
-          return array[i]['time'] + array[i]['s'];
-        }
-      }
-      return '0秒前';
-    }
   },
   mounted() {
     this.$nextTick(() => {
@@ -125,7 +69,7 @@ export default {
   li {
     border-bottom: 1px solid #d5dbdb;
     a {
-      padding: .25rem .35rem;
+      padding: .15rem .20rem;
       display: block;
       &:active {
         background-color: rgba(131, 180, 232, .4);;
@@ -133,20 +77,20 @@ export default {
     }
     h3 {
       color: #2c3e50;
-      font-size: .45rem;
+      font-size: .35rem;
       line-height: 1.5;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
       &:before {
         content: attr(data-title);
-        margin-right: .3rem;
+        margin-right: .28rem;
         margin-top: -.2rem;
         color: #ffffff;
-        padding: .12rem .18rem;
-        font-size: .3rem;
+        padding: .10rem .15rem;
+        font-size: .24rem;
         font-weight: 400;
-        border-radius: .12rem;
+        border-radius: .1rem;
         background-color: #e7e7e7;
       }
       &.top:before {
@@ -170,8 +114,8 @@ export default {
       display: flex;
       >img {
         display: block;
-        width: 1.2rem;
-        height: 1.2rem;
+        width: 1rem;
+        height: 1rem;
         border-radius: 50%;
         margin-right: .2rem;
         border: 1px solid #F3F3F3;
@@ -181,10 +125,10 @@ export default {
       }
       p {
         &:first-child {
-          font-size: .4rem;
+          font-size: .3rem;
         }
         color: #34495e;
-        font-size: .35rem;
+        font-size: .28rem;
         display: flex;
       }
       .name, time:first-child {
