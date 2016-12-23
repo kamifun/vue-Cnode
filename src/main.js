@@ -6,9 +6,19 @@ import VueResource from 'vue-resource';
 
 import router from 'src/router';
 import store from 'store';
+import filters from 'src/filters';
+import mixin from 'src/mixin';
 
 // use plugins
 Vue.use(VueResource);
+
+// register filters
+Object.keys(filters).forEach((key) => {
+  Vue.filter(key, filters[key]);
+});
+
+// mixin
+Vue.mixin(mixin);
 
 /* eslint-disable no-new */
 new Vue({
