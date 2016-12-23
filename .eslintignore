@@ -1,3 +1,5 @@
 build/*.js
 config/*.js
 src/utils/*.js
+src/components/Drawer.vue
+node_modules/*
