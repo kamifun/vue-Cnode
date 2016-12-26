@@ -199,7 +199,6 @@ export default {
 
     >.tab-swiper {
       position: relative;
-      padding-top: .8rem;
       padding-bottom: .9rem;
       height: 100%;
       overflow: hidden;
