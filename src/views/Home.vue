@@ -1,5 +1,5 @@
 <template>
-  <tabs :tabTitles="tabs">
+  <tabs :tabTitles="tabs" class="pt-header">
     <infinite @get-more="getTopics" v-for="i in tabs.length" :list="getList(i)"></infinite>
   </tabs>
 </template>
@@ -113,7 +113,7 @@ export default {
         return;
       }
 
-      this.$http.get('api/v1/topics', {
+      this.$http.get('topics', {
         params: {
           tab: type,
           page: this[type].nextPage,

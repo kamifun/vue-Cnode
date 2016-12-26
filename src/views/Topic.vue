@@ -1,5 +1,5 @@
 <template lang="html">
-  <section class="topic-content">
+  <section class="topic-content pt-header">
 
     <h2 class="topic-title" v-text="topic.title"></h2>
 
@@ -37,10 +37,10 @@
             <span class="like">
               <i class="iconfont" :class="isUps(item.ups) ? 'icon-appreciatefill' : 'icon-appreciate'" @click="upReply(item)"></i>
               {{ item.ups.length }}
-              <i class="iconfont icon-community" @click="addReply(item.id)"></i>
+              <i class="iconfont icon-mark" @click="addReply(item.id)"></i>
             </span>
           </section>
-          <p class="reply-content" v-html="item.content"></p>
+          <section class="markdown-body reply-content" v-html="item.content"></section>
         </li>
       </ul>
     </section>
@@ -67,11 +67,11 @@ export default {
     // get detail info for topic
     // 获取topic详细信息
     getTopic() {
-      this.$http.get('api/v1/topic/' + this.$route.params.id).then((response) => {
+      this.$http.get('topic/' + this.$route.params.id).then((response) => {
         this.topic = response.data.data;
         // Solve the path problem
-        // 解决路径问题
-        // this.topic.content = this.topic.content.replace(/<img\s?([^(src)|=]?="[^"]")*\s?src="(\/public\/upload[^"]*)"/g, '<img src="http://www.vue-js.com/$2" $1');
+        // 解决路径问题(vue社区)
+        // this.topic.content = this.topic.content.replace(/<img\s?([^(src)|=]?="[^"]")*\s?src="(\/public\/upload[^"]*)"/g, '<img src="//www.vue-js.com/$2" $1');
       }, (response) => {
         console.log(response);
       });
@@ -93,9 +93,6 @@ export default {
 </script>
 
 <style lang="less">
-  .topic-content {
-    padding-top: .8rem;
-  }
   .topic-title {
     margin: .35rem;
     padding: .12rem;
@@ -207,9 +204,8 @@ export default {
           }
         }
       }
-      >.reply-content {
+      .reply-content {
         padding-top: .2rem;
-        font-size: .4rem;
       }
   }
 </style>
