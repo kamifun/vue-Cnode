@@ -51,4 +51,7 @@ export default {
   #app {
     height: 100%;
   }
+  .pt-header {
+    padding-top: .8rem;
+  }
 </style>
