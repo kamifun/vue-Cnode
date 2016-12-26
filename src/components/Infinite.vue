@@ -40,7 +40,7 @@ export default {
   watch: {
     height(value) {
       this.rowsInWindow = Math.ceil(this.$el.offsetHeight / value);
-      this.above = this.rowsInWindow * 2;
+      this.above = this.rowsInWindow * 1;
       this.below = this.rowsInWindow * 2;
       this.max = this.rowsInWindow * this.height;
     },
