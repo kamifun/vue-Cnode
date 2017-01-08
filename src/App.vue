@@ -31,14 +31,26 @@ export default {
     drawer,
     drawerMenu
   },
+  watch: {
+    '$route': 'changeDrawer'
+  },
   computed: {
     ...mapState({
-      ajaxing: state => state.ajax.ajaxing
+      ajaxing: state => state.ajax.ajaxing,
+      user: state => state.user
     })
   },
   methods: {
     // show drawer
     changeDrawer(value) {
+      if (typeof value === 'object') {
+        value = false;
+      }
+      if (this.user.isLogin && !this.user.avatar_url) {
+        // global methods in mixin.js
+        // 在mixin.js的全局方法
+        this.getUserInfo();
+      }
       this.drawerShow = !!value;
     }
   }

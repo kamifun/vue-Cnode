@@ -2,13 +2,26 @@ import { SETUSER, RESETUSER } from 'store/types';
 
 export default {
   state: {
-    loginname: 'victor',
-    avatar_url: 'https://avatars.githubusercontent.com/u/15662801?v=3&s=120',
-    create_at: '2016-05-14T08:36:33.120Z',
-    score: 40
+    loginname: '',
+    avatar_url: '',
+    create_at: '',
+    score: 0,
+    recent_replies: [],
+    recent_topics: [],
+    isLogin: false
   },
   mutations: {
-    [SETUSER]() {},
-    [RESETUSER]() {}
+    [SETUSER](state, obj) {
+      Object.assign(state, obj);
+    },
+    [RESETUSER](state) {
+      Object.assign(state, {
+        loginname: '',
+        avatar_url: '',
+        create_at: '',
+        score: 0,
+        isLogin: false
+      });
+    }
   }
 };
