@@ -31,7 +31,7 @@ const routes = [
   },
   {
     name: 'user',
-    path: '/user/:loginname',
+    path: '/user/:username',
     component: user
   },
   {
@@ -61,24 +61,33 @@ let router = new VueRouter({
   routes
 });
 
+// before all router,check the login
+// 路由进入前，校验登录状态
 router.beforeEach((to, from, next) => {
   let auth;
   to.matched.some(record => {
     auth = record.meta.auth;
   });
 
+  // save in vuex
   let isLogin = store.state.user.isLogin;
-  let token, loginname;
-  let storage = ((token = window.localStorage.getItem('token')) && (loginname = window.localStorage.getItem('user'))) || ((token = window.sessionStorage.getItem('token')) && (loginname = window.sessionStorage.getItem('user')));
+  let token, loginname, userId;
+  // save token、loginname and userId in storage
+  // 保存token、loginname和userId到storage
+  let storage = ((token = window.localStorage.getItem('token')) && (loginname = window.localStorage.getItem('user')) && (userId = window.localStorage.getItem('userId'))) || ((token = window.sessionStorage.getItem('token')) && (loginname = window.sessionStorage.getItem('user')) && (userId = window.sessionStorage.getItem('userId')));
+  // 如果未在vuex中保存登录状态，则从storage中读取
   if (!isLogin && !!storage) {
-    console.log(token, loginname, storage);
     isLogin = true;
     store.commit(SETUSER, {
       isLogin: true,
-      loginname: loginname
+      loginname: loginname,
+      userId: userId,
+      token: token
     });
   }
 
+  // need login but not login
+  // 需要登录但是未登录
   if (auth && !isLogin) {
     next({
       name: 'login',

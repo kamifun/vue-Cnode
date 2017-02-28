@@ -11,7 +11,7 @@ github：[https://github.com/kamifun/vue-Cnode](https://github.com/kamifun/vue-C
 
 ### 环境
 ```
-node && npm(node自带)
+node && npm(安装node的时候有提供选项)
 git bash(clone使用，也可以直接下载zip)
 ```
 
@@ -28,17 +28,18 @@ git bash(clone使用，也可以直接下载zip)
 ### 功能
 - [x] 首页分类列表
 - [x] 长列表优化，列表最长显示4屏
-- [ ] 主题详情，回复，点赞
-- [ ] 消息列表
+- [x] 主题详情，回复，点赞
+- [x] 消息列表
 - [ ] 消息提醒
-- [ ] 消息标记为已读
-- [ ] 个人主页
-- [ ] 用户信息
+- [x] 消息标记为已读
+- [x] 个人主页
+- [x] 用户信息
 - [ ] 登录(token或扫描二维码),永久保存||当前会话
-- [ ] 退出
-- [ ] 关于
-- [ ] 页面后退，数据还原
-- [ ] 页面后退，滚动位置还原
+- [x] 退出
+- [x] 关于
+- [x] vuex存储数据
+- [x] 首页列表滚动位置还原
+- [x] 点击标题栏，页面返回顶部
 
 
 
@@ -73,12 +74,14 @@ git bash(clone使用，也可以直接下载zip)
 |       |-- Header.vue               // 页面头部组件
 |       |-- Infinite.vue             // 无限滚动列表组件
 |       |-- List.vue                 // 列表组件
-|       |-- loading.vue              // 页面数据加载组件
+|       |-- Loading.vue              // 页面数据加载组件
 |       |-- Menu.vue                 // 侧边栏菜单组件
+|       |-- Reply.vue                // 主题回复组件
 |       |-- Tabs.vue                 // 选项卡组件
 |   |-- store                        // vuex
 |       |-- modules                  // vuex模块目录
 |           |-- ajax.js              // ajax数据模块
+|           |-- head.js              // 标题栏数据模块
 |           |-- list.js              // 列表数据模块
 |           |-- tabs.js              // 选项卡数据模块
 |           |-- user.js              // 用户数据模块

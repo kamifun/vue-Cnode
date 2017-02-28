@@ -6,14 +6,17 @@
     <div class="toolbar-left" @click="goBack" v-else>
       <i class="iconfont icon-back"></i>
     </div>
-    <div class="toolbar-title">全部</div>
+    <div class="toolbar-title" v-text="head.title" @click="scrollToTop"></div>
     <div class="toolbar-right">
-      <i class="iconfont icon-022caozuo_jiahao"></i>
+      <!-- <i class="iconfont icon-022caozuo_jiahao"></i> -->
     </div>
   </header>
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex';
+import { SETTITLE } from 'store/types';
+
 export default {
   name: 'header',
   data() {
@@ -24,6 +27,11 @@ export default {
   watch: {
     '$route': 'changeRoute'
   },
+  computed: {
+    ...mapState({
+      head: state => state.head
+    })
+  },
   methods: {
     // show drawer
     // 显示侧边栏
@@ -32,16 +40,32 @@ export default {
     },
     // change route
     changeRoute() {
+      let titleRoute = {
+        topic: '主题详情',
+        about: '关于我们',
+        user: '个人资料',
+        message: '通知消息',
+        login: '登录',
+        home: '首页'
+      };
+      this.setTitle(titleRoute[this.$route.name]);
       if (this.$route.name === 'home') {
         this.isHome = true;
-        return;
+      } else {
+        this.isHome = false;
       }
-      this.isHome = false;
     },
     // go back history
     goBack() {
       this.$router.go(-1);
-    }
+    },
+    // scroll to top
+    scrollToTop() {
+      this.$root.$emit('scroll-to-top');
+    },
+    ...mapMutations({
+      setTitle: SETTITLE
+    })
   },
   mounted() {
     this.changeRoute();
@@ -63,8 +87,16 @@ export default {
     justify-content: space-between;
     box-shadow: 0 0 4px rgba(0, 0, 0, .25);
     background-color: #fff;
+    .toolbar-right, .toolbar-left {
+      width: .5rem;
+    }
     .toolbar-title {
       font-size: .4rem;
+    }
+    .toolbar-title {
+      flex: 1;
+      font-size: .4rem;
+      text-align: center;
     }
     .iconfont {
       font-size: .5rem;

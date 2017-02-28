@@ -17,6 +17,7 @@ export default {
     };
   },
   methods: {
+    // 登录
     login() {
       if (!this.token) {
         return;
@@ -33,19 +34,25 @@ export default {
       }).then(({body}) => {
         this.endAjax();
         if (body.success) {
+          this.token = '';
+          // save info
+          // 保存信息
           window.sessionStorage.setItem('token', token);
           window.sessionStorage.setItem('user', body.loginname);
+          window.sessionStorage.setItem('userId', body.id);
 
+          // redirect url
+          // 路由跳转
           this.$router.push({
             name: this.$route.query.redirect || 'user',
             params: {
-              loginname: body.loginname
+              username: body.loginname
             }
           });
         }
-      }, (error) => {
+      }, ({body}) => {
         this.endAjax();
-        console.log(error);
+        window.alert(body.error_msg);
       });
     },
     ...mapMutations({

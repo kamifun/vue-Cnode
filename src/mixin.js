@@ -34,6 +34,15 @@ export default {
       }, ({body}) => {
         console.log(body.error_msg);
       });
+    },
+    // get token
+    // 获取token值
+    getToken() {
+      return window.localStorage.getItem('token') || window.sessionStorage.getItem('token');
+    },
+    // 返回顶部
+    scrollToTop() {
+      document.body.scrollTop = 0;
     }
   }
 };

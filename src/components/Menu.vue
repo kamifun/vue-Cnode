@@ -1,7 +1,7 @@
 <template lang="html">
   <section class="side-bar" v-if="user.isLogin">
     <div class="user-info">
-      <router-link :to="{}" class="portrait">
+      <router-link :to="{name: 'user', params: {username: user.loginname}}" class="portrait">
         <img :src="user.avatar_url || require('../assets/kamifun.jpg')" alt="" />
         <div v-text="user.loginname"></div>
       </router-link>
@@ -11,10 +11,11 @@
       </p>
     </div>
     <nav>
-      <router-link class="iconfont icon-dog item" :to="{name: 'user', params: {loginname: 'kamifun'}}">个人资料</router-link>
+      <router-link class="iconfont icon-dog item" :to="{name: 'user', params: {username: user.loginname}}">个人资料</router-link>
       <router-link class="iconfont icon-community item" :to="{name: 'message'}">消息列表</router-link>
       <router-link class="iconfont icon-information item" :to="{name: 'about'}">关于vue-cn</router-link>
     </nav>
+    <a class="logout" @click="logout">登出</a>
   </section>
 
   <section class="side-bar" v-else>
@@ -43,6 +44,11 @@ export default {
     })
   },
   methods: {
+    logout() {
+      this.resetUser();
+      window.localStorage.clear();
+      window.sessionStorage.clear();
+    },
     ...mapMutations({
       resetUser: RESETUSER
     })
@@ -81,6 +87,20 @@ export default {
         font-size: .3rem;
         color: #fff;
       }
+    }
+    >.logout {
+      position: absolute;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: block;
+      width: 2rem;
+      text-align: center;
+      line-height: 1rem;
+      font-size: .5rem;
+      color: white;
+      border-radius: .1rem;
+      background: red;
     }
     >.login {
       position: relative;

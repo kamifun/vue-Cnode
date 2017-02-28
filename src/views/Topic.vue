@@ -1,5 +1,5 @@
 <template lang="html">
-  <section class="topic-content pt-header">
+  <section class="topic-content pt-header" v-if="topic.title">
 
     <h2 class="topic-title" v-text="topic.title"></h2>
 
@@ -23,7 +23,7 @@
 
     <section class="reply-list">
       <ul>
-        <li v-for="item in topic.replies">
+        <li v-for="(item, index) in topic.replies">
           <section class="reply-head">
             <router-link :to="{}">
               <img :src="item.author.avatar_url" :alt="item.author.loginname">
@@ -35,27 +35,46 @@
               </span>
             </div>
             <span class="like">
-              <i class="iconfont" :class="isUps(item.ups) ? 'icon-appreciatefill' : 'icon-appreciate'" @click="upReply(item)"></i>
+              <i class="iconfont" :class="isUps(item.ups) ? 'icon-appreciatefill' : 'icon-appreciate'" @click="upReply(item.id, index)"></i>
               {{ item.ups.length }}
-              <i class="iconfont icon-mark" @click="addReply(item.id)"></i>
+              <i class="iconfont icon-mark" @click="addReply(index)"></i>
             </span>
           </section>
           <section class="markdown-body reply-content" v-html="item.content"></section>
+          <reply @replied="replied" :topic-id="topic.id" :reply-id="item.id" :reply-name="item.author.loginname" v-show="showReply && currentReply === index" ref="replyBox"></reply>
         </li>
       </ul>
     </section>
+    <reply :topic-id="topic.id"></reply>
   </section>
+  <section v-else></section>
 </template>
 
 <script>
+import reply from 'components/reply';
+import { mapState } from 'vuex';
 require('github-markdown-css');
 
 export default {
   name: 'topic',
   data() {
     return {
-      topic: {}
+      topic: {},
+      currentReply: -1,
+      showReply: false
     };
+  },
+  // 列表返回顶部监听器
+  created() {
+    this.$root.$on('scroll-to-top', this.scrollToTop);
+  },
+  components: {
+    reply
+  },
+  computed: {
+    ...mapState({
+      user: state => state.user
+    })
   },
   watch: {
     '$route': 'changeRoute'
@@ -78,13 +97,47 @@ export default {
     },
     // resolve this reply is upsed
     // 判断该回复是否被点赞
-    isUps(ups) {},
+    isUps(ups) {
+      return ups.includes(this.user.userId);
+    },
     // up/down for this reply
     // 为此回复点赞/取消赞
-    upReply(reply) {},
+    upReply(id, i) {
+      this.$http.post('reply/' + id + '/ups', {
+        accesstoken: this.user.token
+      }).then(({body}) => {
+        if (body.success) {
+          let ups = this.topic.replies[i].ups;
+          if (body.action === 'down') {
+            ups.splice(ups.indexOf(this.user.userId), 1);
+          } else {
+            ups.push(this.user.userId);
+          }
+        }
+      }, ({body}) => {
+        console.log(body.error_msg);
+      });
+    },
     // reply this one
     // 回复此人
-    addReply(id) {}
+    addReply(index) {
+      if (!this.showReply || this.currentReply !== index) {
+        this.showReply = true;
+        this.currentReply = index;
+        // 滚动到输入框
+        let replyBox = this.$refs.replyBox[index].$el;
+        this.$nextTick(() => {
+          document.body.scrollTop = replyBox.offsetTop - (document.documentElement.clientHeight - replyBox.offsetHeight);
+        });
+        return;
+      }
+      this.showReply = false;
+      this.currentReply = -1;
+    },
+    replied(obj) {
+      this.showReply = false;
+      this.currentReply = -1;
+    }
   },
   mounted() {
     this.getTopic();

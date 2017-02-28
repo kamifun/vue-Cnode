@@ -4,6 +4,7 @@ import tabs from 'store/modules/tabs';
 import list from 'store/modules/list';
 import ajax from 'store/modules/ajax';
 import user from 'store/modules/user';
+import head from 'store/modules/head';
 
 Vue.use(Vuex);
 
@@ -12,7 +13,8 @@ export default new Vuex.Store({
     tabs,
     list,
     ajax,
-    user
+    user,
+    head
   },
   strict: process.env.NODE_ENV !== 'production'
 });

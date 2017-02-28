@@ -1,6 +1,6 @@
 <template>
   <tabs :tabTitles="tabs" class="pt-header">
-    <infinite @get-more="getTopics" v-for="i in tabs.length" :list="getList(i)"></infinite>
+    <infinite @get-more="getTopics" v-for="i in tabs.length" :list="getList(i)" ref="infinite"></infinite>
   </tabs>
 </template>
 
@@ -25,33 +25,47 @@ export default {
         list: [],
         loaded: false,
         nextPage: 1,
-        end: false
+        end: false,
+        scrollTop: 0
       },
       good: {
         list: [],
         loaded: false,
         nextPage: 1,
-        end: false
+        end: false,
+        scrollTop: 0
       },
       share: {
         list: [],
         loaded: false,
         nextPage: 1,
-        end: false
+        end: false,
+        scrollTop: 0
       },
       ask: {
         list: [],
         loaded: false,
         nextPage: 1,
-        end: false
+        end: false,
+        scrollTop: 0
       },
       job: {
         list: [],
         loaded: false,
         nextPage: 1,
-        end: false
+        end: false,
+        scrollTop: 0
       }
     };
+  },
+  // 离开路由之前缓存scrollTop
+  beforeRouteLeave(to, from, next) {
+    this.setScrollTop(to);
+    next();
+  },
+  // 列表返回顶部监听器
+  created() {
+    this.$root.$on('scroll-to-top', this.scrollToTop.bind(this));
   },
   computed: {
     // currentType of string
@@ -65,6 +79,10 @@ export default {
     })
   },
   watch: {
+    // 监听路由变化，使得滚动还原
+    $route(to) {
+      this.setScrollTop(to, true);
+    },
     // getTopics when toggle tabs
     // 当切换tabs时，获取topics数据
     currentType(type) {
@@ -150,6 +168,25 @@ export default {
         this.endAjax();
         window.alert('数据获取失败');
       });
+    },
+    // 滚动还原
+    setScrollTop(to, $route) {
+      let infinite = this.$refs.infinite;
+      let tabs = ['all', 'good', 'share', 'ask', 'job'];
+      for (let i = 0; i < this.tabs.length; i++) {
+        if (to.name === 'home') {
+          // 设置
+          infinite[i]['$el'].scrollTop = this[tabs[i]].scrollTop;
+        } else if (!$route) {
+          // 保存
+          this[tabs[i]].scrollTop = infinite[i]['$el'].scrollTop;
+        }
+      }
+    },
+    // 返回顶部
+    scrollToTop() {
+      let tabs = ['all', 'good', 'share', 'ask', 'job'];
+      this.$refs.infinite[tabs.indexOf(this.currentType)]['$el'].scrollTop = 0;
     },
     ...mapMutations({
       startAjax: STARTAJAX,

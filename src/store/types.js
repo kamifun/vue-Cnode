@@ -16,3 +16,6 @@ export const STOPAJAX = 'ajax/stopAjax';
 // user
 export const SETUSER = 'user/setUser';
 export const RESETUSER = 'user/resetUser';
+
+// head
+export const SETTITLE = 'head/setTitle';

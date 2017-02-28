@@ -8,7 +8,9 @@ export default {
     score: 0,
     recent_replies: [],
     recent_topics: [],
-    isLogin: false
+    isLogin: false,
+    userId: '',
+    token: ''
   },
   mutations: {
     [SETUSER](state, obj) {
@@ -20,7 +22,11 @@ export default {
         avatar_url: '',
         create_at: '',
         score: 0,
-        isLogin: false
+        recent_replies: [],
+        recent_topics: [],
+        isLogin: false,
+        userId: '',
+        token: ''
       });
     }
   }
