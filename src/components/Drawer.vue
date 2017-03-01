@@ -40,10 +40,10 @@ export default {
   watch: {
     show: function() {
       //listener
-      if (!this.show)
-        this.$emit('on-hide');
-      else
-        this.$emit('on-show');
+      // if (!this.show)
+      //   this.$emit('on-hide');
+      // else
+      //   this.$emit('on-show');
 
       //transition
       if (this.tran == 'overlay') return;

@@ -12,7 +12,7 @@
     </div>
     <nav>
       <router-link class="iconfont icon-dog item" :to="{name: 'user', params: {username: user.loginname}}">个人资料</router-link>
-      <router-link class="iconfont icon-community item" :to="{name: 'message'}">消息列表</router-link>
+      <router-link class="iconfont icon-community item" :to="{name: 'message'}" :class="{ 'high-light': hasMsg }">消息列表</router-link>
       <router-link class="iconfont icon-information item" :to="{name: 'about'}">关于vue-cn</router-link>
     </nav>
     <a class="logout" @click="logout">登出</a>
@@ -40,7 +40,8 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.user
+      user: state => state.user,
+      hasMsg: state => state.message.hasMsg
     })
   },
   methods: {
@@ -124,6 +125,7 @@ export default {
     >nav {
       padding-top: .38rem;
       >.item {
+        position: relative;
         padding: 0 .45rem;
         display: block;
         font-size: .38rem;
@@ -139,6 +141,16 @@ export default {
           margin-right: .5rem;
           color: #1c171b;
           font-weight: bold;
+        }
+        &.high-light:after {
+          content: '';
+          position: absolute;
+          right: .3rem;
+          top: .6rem;
+          width: .15rem;
+          height: .15rem;
+          border-radius: 50%;
+          background: red;
         }
       }
     }

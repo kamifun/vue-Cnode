@@ -51,6 +51,9 @@ export default {
         // 在mixin.js的全局方法
         this.getUserInfo();
       }
+      if (!!value && this.user.isLogin) {
+        this.getMessageCount();
+      }
       this.drawerShow = !!value;
     }
   }

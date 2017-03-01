@@ -27,7 +27,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
+import { STARTAJAX, ENDAJAX } from 'store/types';
 
 export default {
   name: 'message',
@@ -40,7 +41,8 @@ export default {
   },
   computed: {
     ...mapState({
-      user: state => state.user
+      user: state => state.user,
+      ajaxing: state => state.ajax.ajaxing
     })
   },
   watch: {
@@ -61,17 +63,25 @@ export default {
       this.$http.get('messages', {
         params: {
           'accesstoken': this.user.token
+        },
+        timeout: 5000,
+        before(request) {
+          this.startAjax(request);
         }
       }).then(({body}) => {
+        this.endAjax();
+
         if (!body.success) {
           return;
         }
+
         this.loadedToken = this.user.token;
         this.messages = {
           has_read_messages: body.data.has_read_messages,
           hasnot_read_messages: body.data.hasnot_read_messages
         };
       }, ({body}) => {
+        this.endAjax();
         console.log(body);
       });
     },
@@ -83,16 +93,29 @@ export default {
     clearMessages() {
       this.$http.post('message/mark_all', {
         accesstoken: this.user.token
+      }, {
+        timeout: 5000,
+        before(request) {
+          this.startAjax(request);
+        }
       }).then(function({body}) {
+        this.endAjax();
+
         if (!body.success) {
           return;
         }
+
         this.messages.has_read_messages = this.messages.hasnot_read_messages.concat(this.messages.has_read_messages);
         this.messages.hasnot_read_messages = [];
       }, function({body}) {
+        this.endAjax();
         console.log(body);
       });
-    }
+    },
+    ...mapMutations({
+      startAjax: STARTAJAX,
+      endAjax: ENDAJAX
+    })
   },
   mounted() {
     this.changeRoute();

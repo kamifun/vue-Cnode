@@ -19,3 +19,6 @@ export const RESETUSER = 'user/resetUser';
 
 // head
 export const SETTITLE = 'head/setTitle';
+
+// message
+export const SETMESSAGE = 'msg/setMessage';

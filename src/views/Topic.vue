@@ -1,5 +1,5 @@
 <template lang="html">
-  <section class="topic-content pt-header" v-if="topic.title">
+  <section class="topic-content pt-header" v-if="topic.title" ref="topic-box">
 
     <h2 class="topic-title" v-text="topic.title"></h2>
 
@@ -45,7 +45,7 @@
         </li>
       </ul>
     </section>
-    <reply :topic-id="topic.id"></reply>
+    <reply @replied="replied" :topic-id="topic.id"></reply>
   </section>
   <section v-else></section>
 </template>
@@ -81,6 +81,10 @@ export default {
   },
   methods: {
     changeRoute() {
+      // 已登录，获取用户信息
+      if (this.user.isLogin && !this.user.avatar_url) {
+        this.getUserInfo();
+      }
       this.$route.name === 'topic' && this.getTopic();
     },
     // get detail info for topic
@@ -134,13 +138,17 @@ export default {
       this.showReply = false;
       this.currentReply = -1;
     },
-    replied(obj) {
-      this.showReply = false;
-      this.currentReply = -1;
+    replied(obj, isAt) {
+      if (isAt) {
+        this.showReply = false;
+        this.currentReply = -1;
+      }
+      document.body.scrollTop = this.$refs['topic-box'].offsetHeight - document.documentElement.clientHeight;
+      this.topic.replies.push(obj);
     }
   },
   mounted() {
-    this.getTopic();
+    this.changeRoute();
   }
 };
 </script>

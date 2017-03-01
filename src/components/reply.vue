@@ -6,7 +6,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { markdown } from 'markdown';
+import { mapState, mapMutations } from 'vuex';
+import { STARTAJAX, ENDAJAX } from 'store/types';
 
 export default {
   name: 'reply',
@@ -29,12 +31,16 @@ export default {
       // 按钮文字
       btnText: '回复',
       // 是否提示错误
-      showErr: false
+      showErr: false,
+      // 小尾巴
+      from: `
+      **[from kamifun/vue-Cnode](https://github.com/kamifun/vue-Cnode)**`
     };
   },
   computed: {
     ...mapState({
-      user: state => state.user
+      user: state => state.user,
+      ajaxing: state => state.ajax.ajaxing
     })
   },
   methods: {
@@ -51,30 +57,61 @@ export default {
       let token = this.user.token;
       // 未登录处理
       if (!token) {
+        this.goToLogin();
         return;
       }
+
+      // return when ajaxing is true
+      // 当前正在进行ajax请求，退出
+      if (this.ajaxing) {
+        return;
+      }
+
+      let content = (this.replyName && this.replyId ? '@' + this.replyName + ' ' : '') + this.content + this.from;
 
       // 提交的数据
       let postData = {
         accesstoken: this.getToken(),
-        content: (this.replyName && this.replyId ? '@' + this.replyName + ' ' : '') + this.content
+        content: content
       };
       // 回复别人
       if (this.replyId) {
         postData.reply_id = this.replyId;
       }
       // ajax提交
-      this.$http.post('topic/' + this.topicId + '/replies', postData).then(({body}) => {
+      this.$http.post('topic/' + this.topicId + '/replies', postData, {
+        timeout: 5000,
+        before(request) {
+          this.startAjax(request);
+        }
+      }).then(({body}) => {
+        this.endAjax();
+
         if (body.success) {
           this.content = '';
-          this.$emit('replied');
+          this.$emit('replied', {
+            author: {
+              avatar_url: this.user.avatar_url,
+              loginname: this.user.loginname
+            },
+            content: markdown.toHTML(this.linkUsers(content)),
+            create_at: new Date(),
+            id: body.reply_id,
+            replyId: this.replyId || null,
+            ups: []
+          }, !!this.replyId);
           return;
         }
         window.alert(body.error_msg);
       }, ({body}) => {
+        this.endAjax();
         window.alert(body.error_msg);
       });
-    }
+    },
+    ...mapMutations({
+      startAjax: STARTAJAX,
+      endAjax: ENDAJAX
+    })
   }
 };
 </script>

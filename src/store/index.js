@@ -5,6 +5,7 @@ import list from 'store/modules/list';
 import ajax from 'store/modules/ajax';
 import user from 'store/modules/user';
 import head from 'store/modules/head';
+import message from 'store/modules/message';
 
 Vue.use(Vuex);
 
@@ -14,7 +15,8 @@ export default new Vuex.Store({
     list,
     ajax,
     user,
-    head
+    head,
+    message
   },
   strict: process.env.NODE_ENV !== 'production'
 });

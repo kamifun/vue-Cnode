@@ -33,7 +33,8 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapState, mapMutations } from 'vuex';
+  import { STARTAJAX, ENDAJAX } from 'store/types';
 
   export default {
     name: 'user',
@@ -50,7 +51,8 @@
     },
     computed: {
       ...mapState({
-        user: state => state.user
+        user: state => state.user,
+        ajaxing: state => state.ajax.ajaxing
       })
     },
     methods: {
@@ -58,6 +60,7 @@
       changeRoute() {
         // 访问user页面，并且当前用户和路由参数username不同时
         if (this.$route.name === 'user' && this.currentUser.loginame !== this.$route.params.username) {
+          this.currentUser = {};
           // 如果访问已登录的用户信息，则从vuex中读取数据
           if (this.$route.params.username === this.user.loginname && this.user.avatar_url) {
             this.currentUser = Object.assign({}, this.user);
@@ -72,7 +75,15 @@
         if (!username) {
           return {};
         }
-        this.$http.get('user/' + username).then(({body}) => {
+
+        this.$http.get('user/' + username, {
+          timeout: 5000,
+          before(request) {
+            this.startAjax(request);
+          }
+        }).then(({body}) => {
+          this.endAjax();
+
           if (body.success) {
             this.currentUser = Object.assign({}, {
               loginname: username,
@@ -84,12 +95,17 @@
             });
           }
         }, ({body}) => {
+          this.endAjax();
           console.log(body.error_msg);
         });
       },
       changeTab(tab) {
         this.currentTab = tab;
-      }
+      },
+      ...mapMutations({
+        startAjax: STARTAJAX,
+        endAjax: ENDAJAX
+      })
     },
     mounted() {
       this.changeRoute();

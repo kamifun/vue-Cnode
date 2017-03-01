@@ -16,7 +16,7 @@ export default {
   .preloader-indicator-overlay {
       width: 100%;
       height: 100%;
-      position: absolute;
+      position: fixed;
       top: 0;
       right: 0;
       bottom: 0;
